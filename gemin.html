@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AsoHot Hero Banner - Upward Climb</title>
+    <style>
+        /* Base Resets */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #0b0f19;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* Banner Container */
+        .banner-container {
+            max-width: 1200px;
+            width: 100%;
+            background: radial-gradient(circle at 80% 20%, #1e1b4b 0%, #0f172a 100%);
+            border-radius: 24px;
+            padding: 60px 50px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        /* Left Column: Copywriting */
+        .left-column {
+            flex: 1;
+            max-width: 55%;
+        }
+
+        .main-headline {
+            font-size: 46px;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 35px;
+            color: #ffffff;
+        }
+
+        .highlight-text {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+            margin-top: 8px;
+        }
+
+        /* 3x2 Feature Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(0, 242, 254, 0.05);
+            border-color: #00f2fe;
+            transform: translateY(-2px);
+        }
+
+        .card-icon {
+            font-size: 20px;
+            margin-right: 12px;
+        }
+
+        .card-text {
+            font-size: 14.5px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(90deg, #ff4500, #ff7a00);
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            box-shadow: 0 4px 25px rgba(255, 69, 0, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            animation: pulseGlow 2s infinite;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 30px rgba(255, 69, 0, 0.6);
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 69, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0); }
+        }
+
+        /* Right Column: Animation Dashboard */
+        .right-column {
+            flex: 1;
+            position: relative;
+            height: 480px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 20px 40px rgba(0,0,0,0.4);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        /* Dashboard Header */
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 20px;
+            z-index: 2;
+        }
+
+        .dash-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* The SVG Curve & Arrow Layer */
+        .chart-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .growth-curve {
+            fill: none;
+            stroke: url(#curve-grad);
+            stroke-width: 6;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            stroke-linecap: round;
+            animation: drawCurve 6s infinite ease-in-out;
+        }
+        
+        .arrow-head {
+            fill: #00f2fe;
+            opacity: 0;
+            animation: showArrow 6s infinite ease-in-out;
+        }
+
+        @keyframes drawCurve {
+            0%, 15% { stroke-dashoffset: 1000; }
+            50%, 90% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: 0; opacity: 0; }
+        }
+
+        @keyframes showArrow {
+            0%, 48% { opacity: 0; transform: translate(-20px, 20px) scale(0.5); }
+            50%, 90% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; }
+        }
+
+        /* App List Container */
+        .app-list-container {
+            position: relative;
+            flex: 1;
+            z-index: 2;
+        }
+
+        /* Standard App Row */
+        .app-row {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            backdrop-filter: blur(5px);
+            transition: all 0.5s ease;
+        }
+
+        .app-row.competitor {
+            animation: slideDown 6s infinite cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .app-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #334155;
+            margin-right: 15px;
+        }
+
+        .app-details {
+            flex: 1;
+        }
+
+        .app-name-fake {
+            height: 8px;
+            width: 60%;
+            background: #475569;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .app-stat-fake {
+            height: 6px;
+            width: 40%;
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        .rank-badge {
+            font-size: 14px;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        /* The Target App (Your App) */
+        .app-row.target-app {
+            position: absolute;
+            bottom: 12px;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid #00f2fe;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.2);
+            z-index: 10;
+            animation: climbToTop 6s infinite cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .target-app .app-icon {
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        .target-app .app-name-fake {
+            background: #ffffff;
+            height: 12px;
+            width: 70%;
+        }
+
+        .target-app .app-stat-fake {
+            background: #00f2fe;
+        }
+
+        .target-app .rank-badge {
+            color: #00f2fe;
+            font-size: 16px;
+        }
+        
+        /* The dynamic rank number for target app */
+        .dynamic-rank::after {
+            content: "#250";
+            animation: updateRank 6s infinite cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Keyframes for the climbing logic */
+        @keyframes slideDown {
+            0%, 20% { transform: translateY(0); opacity: 1; }
+            40%, 90% { transform: translateY(70px); opacity: 0.3; } 
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes climbToTop {
+            0%, 20% { 
+                transform: translateY(0) scale(1); 
+                border-color: #334155;
+                box-shadow: none;
+            }
+            30% {
+                transform: translateY(0) scale(1.02); 
+                border-color: #00f2fe;
+                box-shadow: 0 0 30px rgba(0, 242, 254, 0.4);
+            }
+            50%, 90% { 
+                transform: translateY(-250px) scale(1.05); 
+                border-color: #00f2fe;
+                box-shadow: 0 0 40px rgba(0, 242, 254, 0.6);
+            }
+            100% { 
+                transform: translateY(0) scale(1); 
+                border-color: #334155;
+                box-shadow: none;
+            }
+        }
+
+        @keyframes updateRank {
+            0%, 20% { content: "#250"; color: #94a3b8; }
+            35% { content: "#86"; color: #f59e0b; }
+            50%, 90% { content: "Top 3!"; color: #00f2fe; text-shadow: 0 0 10px rgba(0,242,254,0.8); }
+            100% { content: "#250"; color: #94a3b8; }
+        }
+
+        /* Responsive Breakpoint */
+        @media (max-width: 968px) {
+            .banner-container { flex-direction: column; }
+            .left-column, .right-column { max-width: 100%; width: 100%; }
+            .right-column { height: 400px; margin-top: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="banner-container">
+        <div class="left-column">
+            <h1 class="main-headline">
+                Don’t Let Your App
+                <span class="highlight-text">Stay Invisible.</span>
+            </h1>
+
+            <div class="features-grid">
+                <div class="feature-card"><span class="card-icon">🚀</span><span class="card-text">Reach Top Rankings Fast</span></div>
+                <div class="feature-card"><span class="card-icon">⭐️</span><span class="card-text">Get Real Ratings & Reviews</span></div>
+                <div class="feature-card"><span class="card-icon">📈</span><span class="card-text">Higher ROI Lower Cost</span></div>
+                <div class="feature-card"><span class="card-icon">🛡️</span><span class="card-text">Anti-Ban Protection</span></div>
+                <div class="feature-card"><span class="card-icon">🔄</span><span class="card-text">Keep Rankings Stable</span></div>
+                <div class="feature-card"><span class="card-icon">💎</span><span class="card-text">Full Refund If No Ranking</span></div>
+            </div>
+
+            <a href="#start" class="cta-button">Start Ranking Now</a>
+        </div>
+
+        <div class="right-column">
+            <div class="dash-header">
+                <div class="dash-title">Live App Store Keyword Search</div>
+                <div class="dash-title" style="color:#00f2fe">Tracking...</div>
+            </div>
+
+            <svg class="chart-layer" viewBox="0 0 400 350" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="curve-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#ff4500" stop-opacity="0.2"/>
+                        <stop offset="50%" stop-color="#4facfe" stop-opacity="0.8"/>
+                        <stop offset="100%" stop-color="#00f2fe" stop-opacity="1"/>
+                    </linearGradient>
+                </defs>
+                <path class="growth-curve" d="M -20,330 C 150,330 200,150 380,40" />
+                <polygon class="arrow-head" points="390,30 365,35 375,55" />
+            </svg>
+
+            <div class="app-list-container">
+                <div class="app-row competitor">
+                    <div class="app-icon"></div>
+                    <div class="app-details"><div class="app-name-fake"></div><div class="app-stat-fake"></div></div>
+                    <div class="rank-badge">#1</div>
+                </div>
+                <div class="app-row competitor">
+                    <div class="app-icon"></div>
+                    <div class="app-details"><div class="app-name-fake"></div><div class="app-stat-fake"></div></div>
+                    <div class="rank-badge">#2</div>
+                </div>
+                <div class="app-row competitor">
+                    <div class="app-icon"></div>
+                    <div class="app-details"><div class="app-name-fake"></div><div class="app-stat-fake"></div></div>
+                    <div class="rank-badge">#3</div>
+                </div>
+                <div class="app-row competitor">
+                    <div class="app-icon"></div>
+                    <div class="app-details"><div class="app-name-fake"></div><div class="app-stat-fake"></div></div>
+                    <div class="rank-badge">#4</div>
+                </div>
+
+                <div class="app-row target-app">
+                    <div class="app-icon"></div>
+                    <div class="app-details">
+                        <div class="app-name-fake" style="margin-bottom:4px;"></div>
+                        <div style="font-size: 11px; color: #94a3b8;">Your Strategy App</div>
+                    </div>
+                    <div class="rank-badge dynamic-rank"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
